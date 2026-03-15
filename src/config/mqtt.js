@@ -1,6 +1,8 @@
-const mqtt = require("mqtt")
-require("dotenv").config()
+import mqtt from "mqtt"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const client = mqtt.connect(process.env.MQTT_URL)
 
-module.exports = client
+export default client

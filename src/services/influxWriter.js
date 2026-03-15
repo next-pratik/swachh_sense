@@ -1,14 +1,12 @@
-const { Point } = require("@influxdata/influxdb-client")
-const writeApi = require("../config/influx")
+import { Point } from "@influxdata/influxdb-client"
+import { writeApi } from "../config/influx.js"
 
-function writeSensorData(data) {
+export function writeSensorData(sensor, value, deviceId) {
 
-  const point = new Point(data.sensor)
-    .tag("device_id", data.deviceId)
-    .floatField("value", data.value)
+  const point = new Point(sensor)
+    .tag("device_id", deviceId)
+    .floatField("value", value)
 
   writeApi.writePoint(point)
 
 }
-
-module.exports = writeSensorData

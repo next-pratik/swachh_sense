@@ -1,14 +1,14 @@
-const { InfluxDB } = require("@influxdata/influxdb-client")
-require("dotenv").config()
+import { InfluxDB } from "@influxdata/influxdb-client"
+import dotenv from "dotenv"
 
-const influxDB = new InfluxDB({
+dotenv.config()
+
+const influx = new InfluxDB({
   url: process.env.INFLUX_URL,
   token: process.env.INFLUX_TOKEN
 })
 
-const writeApi = influxDB.getWriteApi(
+export const writeApi = influx.getWriteApi(
   process.env.INFLUX_ORG,
   process.env.INFLUX_BUCKET
 )
-
-module.exports = writeApi
