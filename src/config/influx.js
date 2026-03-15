@@ -8,7 +8,14 @@ const influx = new InfluxDB({
   token: process.env.INFLUX_TOKEN
 })
 
-export const writeApi = influx.getWriteApi(
+const writeApi = influx.getWriteApi(
   process.env.INFLUX_ORG,
-  process.env.INFLUX_BUCKET
+  process.env.INFLUX_BUCKET,
+  "ns"
 )
+
+writeApi.useDefaultTags({
+  source: "swachh_sense"
+})
+
+export { writeApi }

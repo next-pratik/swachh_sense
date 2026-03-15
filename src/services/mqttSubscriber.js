@@ -30,3 +30,4 @@ client.on("message", (topic, message) => {
   writeSensorData(sensor, value, "esp32_01")
 
 })
+
