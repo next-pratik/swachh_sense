@@ -1,33 +1,27 @@
 import client from "../config/mqtt.js"
-import { writeSensorData } from "./influxWriter.js"
+import { storeSensorData } from "./sensorService.js"
 
 client.on("connect", () => {
 
   console.log("Connected to MQTT")
 
-  client.subscribe("sensor/#", (err) => {
-
-    if (err) {
-      console.error("Subscription failed:", err)
-    } else {
-      console.log("Subscribed to sensor/#")
-    }
-
-  })
+  client.subscribe("sensor/#")
 
 })
 
-client.on("message", (topic, message) => {
+client.on("message", async (topic, message) => {
 
   const payload = message.toString()
 
-  const sensor = topic.split("/")[1]
+  const parts = topic.split("/")
+
+  const deviceMac = parts[1]
+  const sensor = parts[2]
 
   const value = parseFloat(payload)
 
-  console.log(`Sensor: ${sensor} Value: ${value}`)
+  console.log(deviceMac, sensor, value)
 
-  writeSensorData(sensor, value, "esp32_01")
+  await storeSensorData(deviceMac, sensor, value)
 
 })
-
